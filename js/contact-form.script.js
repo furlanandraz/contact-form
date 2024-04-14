@@ -16,12 +16,10 @@ function formValidationAndRequest(form) {
     if (name == '' || email == '' || subject == '' || message == '') {
         resMsg.innerHTML = 'Please fill in all the fields!';
         isValid = false
-        return isValid;
     }
     if (!(isEmail(email))) {
         resMsg.innerHTML = 'Please enter a valid email!';
         isValid = false;
-        return isValid;
     }
     if (isValid) {
 
@@ -35,7 +33,7 @@ function formValidationAndRequest(form) {
             }
         }).catch(err => {
             resMsg.innerHTML = 'Sorry, email was not sent successfully. There was a problem with connection.';
-            console.log(err);
+            console.error(err);
         });
     } else {
         resMsg.innerHTML = 'Sorry, there seems to have been a problem with your input.';
@@ -44,29 +42,30 @@ function formValidationAndRequest(form) {
 
 function onSubmit() {
     const form = document.getElementById('contact-form');
-    grecaptcha.enterprise.ready(function () {
-        grecaptcha.enterprise.execute('6LfAYbopAAAAAMoN1_wuN1KuwI_Q9seHW6jFHuuU', { action: 'submit' }).then(token => {
+    grecaptcha.enterprise.ready(() => {
+        grecaptcha.enterprise.execute('<YOUR_SITE_KEY>', { action: 'submit' }).then(token => {
+            resMsg.innerHTML = 'Sending e-mail ...';
             let body = {
                 "event": {
                     "token": `${token}`,
                     "expectedAction": "submit",
-                    "siteKey": "6LfAYbopAAAAAMoN1_wuN1KuwI_Q9seHW6jFHuuU",
+                    "siteKey": "<YOUR_SITE_KEY>",
                 }
             }
             body = JSON.stringify(body);
-            fetch('https://recaptchaenterprise.googleapis.com/v1/projects/furlanandraz/assessments?key=AIzaSyC5XI4uoi6VeuFQ9HcQUuefTeBHMFlHOvo', {
+
+            fetch('https://recaptchaenterprise.googleapis.com/v1/projects/<YOUR_PROJECT_NAME>/assessments?key=<YOUR_PROJECT_API_KEY>', {
                 method: 'POST',
                 body: body,
             }).then(res => {
-                res.json();
                 if (res.ok) {
-                    resMsg.innerHTML = 'Sending e-mail ...';
                     formValidationAndRequest(form);
                 } else {
                     resMsg.innerHTML = 'You failed the reCAPTCHA test!';
                 }
             }).catch(err => {
-                resMsg.innerHTML = 'There was an error with sending your inquiry!'
+                resMsg.innerHTML = 'There was an error with sending your inquiry!';
+                console.error(err);
             });
         });
     });
