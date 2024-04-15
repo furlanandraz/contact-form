@@ -1,5 +1,5 @@
 <?php
-if ($_SERVER['SERVER_NAME'] == 'www.furlanandraz.com') {
+if ($_SERVER['SERVER_NAME'] == '<YOUR_DOMAIN_NAME>') {
     $name = $_POST["name"];
     $email = $_POST["email"];
     $message = $_POST["message"];
