@@ -10,3 +10,4 @@ contact form with reCAPTCHA verification followed by input validation and fetchi
 6. use your reCAPTCHA security key in '<YOUR_SITE_KEY>' @ html:5, js:2
 7. add your domain as '<YOUR_DOMAIN_NAME>' and your email address as '<YOUR_EMAIL_ADDRESS>' @ php:2
 8. change action if desired @ js:51, js:56
+9. for multiligual page, get html lang attribute in js and create a switch statement for different response messages
